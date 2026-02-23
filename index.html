@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>計算実験</title>
+
+<style>
+body{
+    font-family: Arial;
+    text-align:center;
+    background:#f0f0f0;
+    margin:0;
+    padding:10px;
+}
+
+h2{
+    margin:5px;
+}
+
+input{
+    width:80px;
+    font-size:18px;
+    text-align:center;
+}
+
+button{
+    font-size:16px;
+    padding:8px 16px;
+    margin:5px;
+    cursor:pointer;
+}
+
+#timer{
+    font-size:20px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+#log{
+    height:300px;
+    overflow:auto;
+    border:1px solid #ccc;
+    background:white;
+    margin-top:10px;
+    padding:5px;
+    text-align:left;
+}
+</style>
+
+</head>
+<body>
+
+<h2>計算実験 Web</h2>
+
+回数:
+<input id="count" value="10">
+
+<br>
+
+<button onclick="normalMode()">通常モード</button>
+<button onclick="fastMode()">最速モード</button>
+
+<div id="timer">時間: 0 秒</div>
+
+<div id="log"></div>
+
+<script>
+
+async function normalMode(){
+
+    let count = parseInt(document.getElementById("count").value);
+    let log = document.getElementById("log");
+    let timer = document.getElementById("timer");
+
+    log.innerHTML = "";
+    timer.innerHTML = "計算中...";
+
+    let start = performance.now();
+
+    for(let i=0;i<count;i++){
+
+        let a = Math.floor(Math.random()*100);
+        let b = Math.floor(Math.random()*100);
+
+        let ans = a*b;
+
+        log.innerHTML += `${a} × ${b} = ${ans}<br>`;
+        log.scrollTop = log.scrollHeight;
+
+        await new Promise(r=>setTimeout(r,0));
+    }
+
+    let end = performance.now();
+
+    let sec = (end-start)/1000;
+
+    timer.innerHTML = `時間: ${sec.toFixed(3)} 秒`;
+}
+
+
+
+function fastMode(){
+
+    let count = parseInt(document.getElementById("count").value);
+    let timer = document.getElementById("timer");
+    let log = document.getElementById("log");
+
+    log.innerHTML = "";
+    timer.innerHTML = "計算中...";
+
+    let start = performance.now();
+
+    let total = 0;
+
+    for(let i=0;i<count;i++){
+
+        let a = Math.floor(Math.random()*100);
+        let b = Math.floor(Math.random()*100);
+
+        total += a*b;
+    }
+
+    let end = performance.now();
+
+    let sec = (end-start)/1000;
+
+    timer.innerHTML = `最速時間: ${sec.toFixed(3)} 秒`;
+}
+
+</script>
+
+</body>
+</html>
